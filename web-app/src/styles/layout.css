@@ -1,0 +1,27 @@
+/* Add these styles to your CSS file */
+
+/* Set the background color for the entire page to white */
+body {
+    /* background-color: #fff; */
+    /* background: linear-gradient(to bottom, #f0f0f0, #ffffff); */
+    background: linear-gradient(to bottom, #aaffc3, #f0fff4);
+
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center content horizontally */
+    min-height: 100vh; /* Ensure the content takes at least the full viewport height */
+  }
+  
+  /* Define the central content area with a maximum width */
+  .content {
+    background-color: #f9f9f9; /* Set a background color for the content area */
+    padding: 20px; /* Add some padding for spacing */
+    border-radius: 5px; /* Add rounded corners to the content area */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow to the content area */
+    max-width: 800px; /* Define a maximum width for the content */
+    width: 100%; /* Ensure the content takes the available width */
+    text-align: center; /* Center text within the content area */
+  }
+  
+  

@@ -1,0 +1,32 @@
+/* Add these styles to your CSS file */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  /* height: 100vh; Set the header's height to the full viewport height */
+}
+  
+  /* Name styles */
+  .name {
+    display: flex;
+    flex-direction: column; /* Stack first name and last name vertically */
+    margin-top: 10px; /* Add margin at the top of the name container */
+    align-items: center;
+  }
+
+  /* First name styles */
+.first-name {
+    font-size: 70px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Add margin between first name and last name */
+  }
+  
+  /* Last name styles */
+  .last-name {
+    font-size: 70px;
+    font-weight: bold;
+    margin-top: 5px; /* Add margin between first name and last name */
+  }
+
+  

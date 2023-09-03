@@ -1,0 +1,21 @@
+/* Add these styles to your CSS file */
+.App {
+  /* Add styles for the container of your components */
+  margin: 20px; /* Adjust the margin to control the spacing around the container */
+  padding: 100px; /* Optionally, add padding to create inner spacing */
+
+  /* Other styles for your container */
+}
+
+/* Add spacing between components */
+.Header,
+.About {
+  margin-bottom: 20px; /* Adjust the margin-bottom to create space below these components */
+}
+
+/* If you want to add space between About and SocialLinks */
+.About {
+  margin-bottom: 20px; /* Adjust the margin-bottom to create space below the About component */
+}
+
+/* Additional styles for your components */

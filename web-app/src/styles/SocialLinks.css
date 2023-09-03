@@ -1,0 +1,24 @@
+/* SocialLinks.css */
+.social-links {
+    display: flex; /* Use flexbox to arrange items in a row */
+    justify-content: center; /* Center items horizontally within the container */
+    align-items: center; /* Center items vertically within the container */
+    margin: 2%;
+  }
+  
+  .social-links a {
+    margin: 0 10px; /* Add some space between the icons */
+  }
+  
+  /* Define a fixed size for the icons (adjust the size as needed) */
+  .social-links img {
+    width: 60px;
+    height: 60px;
+    transition: transform 0.2s ease-in-out; /* Adds a smooth hover effect */
+  }
+
+  /* Add a hover effect to scale the image slightly on hover */
+  .social-links img:hover {
+    transform: scale(1.1);
+  }
+  
