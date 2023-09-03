@@ -2,7 +2,7 @@
 .App {
   /* Add styles for the container of your components */
   margin: 20px; /* Adjust the margin to control the spacing around the container */
-  padding: 100px; /* Optionally, add padding to create inner spacing */
+  padding: 5em; /* Optionally, add padding to create inner spacing */
 
   /* Other styles for your container */
 }
@@ -15,7 +15,23 @@
 
 /* If you want to add space between About and SocialLinks */
 .About {
+  max-width: 800px; /* Adjust the maximum width for desktop screens */
   margin-bottom: 20px; /* Adjust the margin-bottom to create space below the About component */
 }
 
 /* Additional styles for your components */
+@media screen and (max-width: 768px) {
+  .profile-picture {
+      width: 150px; /* Adjust the size for smaller screens */
+      height: 150px;
+  }
+}
+
+/* Styles for smaller screens (e.g., mobile) */
+@media screen and (max-width: 768px) {
+  .About {
+    max-width: 95%; /* Adjust the maximum width for mobile screens */
+    margin: 0 auto; /* Center-align the component on small screens */
+  }
+}
+
