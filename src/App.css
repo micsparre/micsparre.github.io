@@ -1,11 +1,4 @@
-/* Add these styles to your CSS file */
-.App {
-  /* Add styles for the container of your components */
-  margin: 20px; /* Adjust the margin to control the spacing around the container */
-  padding: 1em; /* Optionally, add padding to create inner spacing */
 
-  /* Other styles for your container */
-}
 
 /* Additional styles for your components */
 @media screen and (max-width: 768px) {

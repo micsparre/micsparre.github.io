@@ -12,10 +12,6 @@ const About: React.FC = () => {
         <p>
           Hello! I'm Michael, a passionate software engineer with a strong
           desire to create innovative solutions that solve real-world problems.
-          My journey in the world of software development has been driven by my
-          curiosity and enthusiasm for technology. My life goal is to leverage my
-          coding skills to make a positive impact on society by helping as many people
-          as possible.
         </p>
         <p>
           In my free time, I enjoy playing/watching soccer, reading sci-fi books,

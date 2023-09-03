@@ -18,14 +18,16 @@ header {
   /* First name styles */
 .first-name {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 600;
+    font-stretch: 100%;
     margin-bottom: 5px; /* Add margin between first name and last name */
   }
   
   /* Last name styles */
   .last-name {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 600;
+    font-stretch: 100%;
     margin-top: 5px; /* Add margin between first name and last name */
   }
 

@@ -1,13 +1,15 @@
 /* font.css */
 
 @font-face {
-    font-family: 'Mona-Sans';
-    src: url('../assets/Mona\ Sans/Mona-Sans.woff2') format('woff2'); /* Add the correct font file paths */
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  /* Apply the custom font to specific elements */
-  body, header, section {
-    font-family: 'Mona-Sans'; /* Fallback to a generic sans-serif font if the custom font is unavailable */
-  }
+  font-family: 'Mona Sans';
+  src:
+    url('../assets/Mona\ Sans/Mona-Sans.woff2') format('woff2 supports variations'),
+    url('../assets/Mona\ Sans/Mona-Sans.woff2') format('woff2-variations');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+}
+
+/* Apply the custom font to specific elements */
+body, header, section {
+  font-family: 'Mona Sans'; /* Fallback to a generic sans-serif font if the custom font is unavailable */
+} 
