@@ -1,7 +1,7 @@
 /* Add these styles to your CSS file, e.g., profile.css */
 .profile-picture {
-    width: 250px; /* Adjust the width to your preferred size */
-    height: 250px; /* Adjust the height to maintain aspect ratio */
+    width: 13rem; /* Adjust the width to your preferred size */
+    height: 13rem; /* Adjust the height to maintain aspect ratio */
     border-radius: 50%; /* Makes the image circular for a profile picture effect */
     object-fit: cover; /* Ensures the image covers the entire container */
     border: 3px solid #fff; /* Adds a white border around the image */
