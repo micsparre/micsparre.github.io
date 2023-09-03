@@ -1,38 +1,21 @@
+/* Add these styles to your CSS file */
 .App {
-  text-align: center;
+  /* Add styles for the container of your components */
+  margin: 20px; /* Adjust the margin to control the spacing around the container */
+  padding: 100px; /* Optionally, add padding to create inner spacing */
+
+  /* Other styles for your container */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Add spacing between components */
+.Header,
+.About {
+  margin-bottom: 20px; /* Adjust the margin-bottom to create space below these components */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* If you want to add space between About and SocialLinks */
+.About {
+  margin-bottom: 20px; /* Adjust the margin-bottom to create space below the About component */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Additional styles for your components */
