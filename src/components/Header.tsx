@@ -11,7 +11,7 @@ const Header: React.FC = () => {
       <img
         className="profile-picture"
         src={profilePicture}
-        alt="Michael Sparre profile picture" />
+        alt="Michael Sparre headshot" />
       <div className="name">
         <h1 className="first-name">Michael</h1>
         <h1 className="last-name">Sparre</h1>
