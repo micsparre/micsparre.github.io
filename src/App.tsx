@@ -1,5 +1,76 @@
 import { useState, useEffect } from "react";
 
+// Add ExplosionArt component here
+const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
+  const NUM_PIXELS_PER_SIDE = 8;
+  const explosionScaleFactor = 1.75; // Determines explosion size relative to asteroid
+  const targetExplosionCanvasSize = baseAsteroidSize * explosionScaleFactor;
+  
+  // Each "pixel" of our art will be an integer-sized div
+  const pixelArtUnitSize = Math.max(1, Math.floor(targetExplosionCanvasSize / NUM_PIXELS_PER_SIDE));
+  
+  // The actual rendered size of the explosion will be based on the sum of our art pixels
+  const actualExplosionRenderSize = NUM_PIXELS_PER_SIDE * pixelArtUnitSize;
+
+  const [opacity, setOpacity] = useState(1);
+
+  useEffect(() => {
+    const fadeOutTimer = setTimeout(() => {
+      setOpacity(0);
+    }, 100); // Start fade-out after 100ms
+
+    return () => clearTimeout(fadeOutTimer);
+  }, []);
+
+  // Pattern: 0: transparent, 1: white, 2: yellow, 3: orange, 4: red
+  const pattern = [
+    [0,0,0,4,4,0,0,0],
+    [0,0,4,3,3,4,0,0],
+    [0,4,3,2,2,3,4,0],
+    [4,3,2,1,1,2,3,4], // Central, brightest part
+    [4,3,2,1,1,2,3,4], // Symmetric
+    [0,4,3,2,2,3,4,0],
+    [0,0,4,3,3,4,0,0],
+    [0,0,0,4,4,0,0,0],
+  ];
+
+  const colorMap: { [key: number]: string | undefined } = {
+    0: undefined,       // Transparent
+    1: '#FFFFFF',       // White
+    2: '#FFFF00',       // Yellow
+    3: '#FFA500',       // Orange
+    4: '#FF0000',       // Red
+  };
+
+  return (
+    <div style={{
+      width: actualExplosionRenderSize,
+      height: actualExplosionRenderSize,
+      display: 'grid',
+      gridTemplateColumns: `repeat(${NUM_PIXELS_PER_SIDE}, ${pixelArtUnitSize}px)`,
+      gridTemplateRows: `repeat(${NUM_PIXELS_PER_SIDE}, ${pixelArtUnitSize}px)`,
+      imageRendering: 'pixelated', 
+      opacity: opacity, // Apply opacity state
+      transition: 'opacity 0.4s ease-out', // Smooth transition for fade-out (400ms)
+    }}>
+      {pattern.flat().map((cellColorId, index) => {
+        const color = colorMap[cellColorId];
+        // Render a div for each cell; transparent if color is not defined
+        return (
+          <div
+            key={index}
+            style={{
+              width: pixelArtUnitSize,
+              height: pixelArtUnitSize,
+              backgroundColor: color, // Undefined backgroundColor is transparent
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 function App() {
   const [stars, setStars] = useState<
     Array<{
@@ -356,7 +427,7 @@ function App() {
           className={`asteroid ${asteroid.isExploding ? 'exploding' : ''}`}
           style={{
             transform: `translate(${asteroid.currentX}vw, ${asteroid.currentY}vh) rotate(${asteroid.rotation}deg)`,
-            opacity: (!asteroid.isExploding && asteroid.startTime && Date.now() >= asteroid.startTime) ? 1 : 0,
+            opacity: (asteroid.startTime && Date.now() >= asteroid.startTime) ? 1 : 0,
             cursor: asteroid.isExploding ? 'default' : 'pointer',
             display: 'flex',
             justifyContent: 'center',
@@ -373,10 +444,7 @@ function App() {
           }}
         >
           {asteroid.isExploding ? (
-            <div className="explosion">
-              {/* Simple square explosion for now */}
-              <div style={{ width: asteroid.size * 1.5, height: asteroid.size * 1.5, background: 'orange', imageRendering: 'pixelated' }} />
-            </div>
+            <ExplosionArt baseAsteroidSize={asteroid.size} />
           ) : (
             <svg
               width={asteroid.size}
