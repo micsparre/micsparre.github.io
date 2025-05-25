@@ -90,6 +90,9 @@ function App() {
 
     const updateAsteroids = () => {
       const now = Date.now();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
       setAsteroids((prevAsteroids) => {
         const updatedAsteroids = prevAsteroids.map((asteroid) => {
           if (asteroid.isExploding || !asteroid.startTime || now < asteroid.startTime) {
@@ -136,21 +139,22 @@ function App() {
           const a1 = newAsteroidsWithCollisions[i];
           if (a1.isExploding || !a1.startTime || now < a1.startTime || a1.currentX === undefined || a1.currentY === undefined) continue;
 
+          // Convert a1 position from vw/vh to pixels
+          const a1PixelX = (a1.currentX / 100) * viewportWidth;
+          const a1PixelY = (a1.currentY / 100) * viewportHeight;
+          const a1Radius = a1.size / 2; // a1.size is already in pixels
+
           for (let j = i + 1; j < newAsteroidsWithCollisions.length; j++) {
             const a2 = newAsteroidsWithCollisions[j];
             if (a2.isExploding || !a2.startTime || now < a2.startTime || a2.currentX === undefined || a2.currentY === undefined) continue;
 
-            // Simple bounding box collision detection
-            // Assumes size is in vw/vh like units for simplicity, adjust if size is pixel based
-            // This is a rough check and might need refinement based on actual rendered size vs. vw/vh units
-            const ROUGH_SIZE_IN_VW_VH = a1.size / 50; // Heuristic: convert pixel size to approx vw/vh
-            
-            const a1Radius = ROUGH_SIZE_IN_VW_VH / 2;
-            const a2Radius = (a2.size / 50) / 2;
+            // Convert a2 position from vw/vh to pixels
+            const a2PixelX = (a2.currentX / 100) * viewportWidth;
+            const a2PixelY = (a2.currentY / 100) * viewportHeight;
+            const a2Radius = a2.size / 2; // a2.size is already in pixels
 
-
-            const distanceX = a1.currentX - a2.currentX;
-            const distanceY = a1.currentY - a2.currentY;
+            const distanceX = a1PixelX - a2PixelX;
+            const distanceY = a1PixelY - a2PixelY;
             const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
             if (distance < a1Radius + a2Radius) {
