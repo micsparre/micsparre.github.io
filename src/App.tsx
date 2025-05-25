@@ -90,36 +90,6 @@ function App() {
           ))}
         </div>
 
-        {asteroids.map((asteroid) => (
-          <div
-            key={asteroid.id}
-            className="asteroid"
-            style={{
-              animationDelay: `${asteroid.delay}s`,
-              '--start-x': `${asteroid.startX}vw`,
-              '--start-y': `${asteroid.startY}vh`,
-              '--end-x': `${asteroid.endX}vw`,
-              '--end-y': `${asteroid.endY}vh`,
-            } as React.CSSProperties}
-          >
-            <svg
-              width={asteroid.size}
-              height={asteroid.size}
-              viewBox="0 0 32 32"
-              className="pixelated"
-            >
-              <rect x="8" y="4" width="16" height="6" fill="#666666" />
-              <rect x="4" y="10" width="6" height="12" fill="#555555" />
-              <rect x="10" y="10" width="12" height="12" fill="#777777" />
-              <rect x="22" y="10" width="6" height="12" fill="#555555" />
-              <rect x="8" y="22" width="16" height="6" fill="#666666" />
-              <rect x="12" y="14" width="8" height="4" fill="#888888" />
-              <rect x="6" y="6" width="4" height="4" fill="#444444" />
-              <rect x="22" y="24" width="4" height="4" fill="#444444" />
-            </svg>
-          </div>
-        ))}
-
         {/* Static test stars to ensure they're visible */}
         <div
           className="absolute w-4 h-4 bg-white"
@@ -284,6 +254,37 @@ function App() {
   return (
     <div className="min-h-screen bg-black text-white font-['Press_Start_2P'] overflow-x-hidden relative">
       <SpaceBackground />
+
+      {/* Render Asteroids here, outside of SpaceBackground but within the main div */}
+      {asteroids.map((asteroid) => (
+        <div
+          key={asteroid.id}
+          className="asteroid"
+          style={{
+            animationDelay: `${asteroid.delay}s`,
+            '--start-x': `${asteroid.startX}vw`,
+            '--start-y': `${asteroid.startY}vh`,
+            '--end-x': `${asteroid.endX}vw`,
+            '--end-y': `${asteroid.endY}vh`,
+          } as React.CSSProperties}
+        >
+          <svg
+            width={asteroid.size}
+            height={asteroid.size}
+            viewBox="0 0 32 32"
+            className="pixelated"
+          >
+            <rect x="8" y="4" width="16" height="6" fill="#666666" />
+            <rect x="4" y="10" width="6" height="12" fill="#555555" />
+            <rect x="10" y="10" width="12" height="12" fill="#777777" />
+            <rect x="22" y="10" width="6" height="12" fill="#555555" />
+            <rect x="8" y="22" width="16" height="6" fill="#666666" />
+            <rect x="12" y="14" width="8" height="4" fill="#888888" />
+            <rect x="6" y="6" width="4" height="4" fill="#444444" />
+            <rect x="22" y="24" width="4" height="4" fill="#444444" />
+          </svg>
+        </div>
+      ))}
 
       {/* Main content */}
       <div className="container mx-auto px-8 py-16 max-w-4xl relative z-20">
