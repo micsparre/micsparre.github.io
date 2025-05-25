@@ -93,13 +93,19 @@ body {
 
 .asteroid {
   position: fixed;
-  animation: moveAsteroid 20s linear infinite;
   z-index: 25;
-  transform: translate(var(--start-x, -10vw), var(--start-y, -10vh));
-  opacity: 0;
+  transition: opacity 0.5s; /* For fade-out during explosion */
+  /* Default state for a moving asteroid, opacity set by JS */
 }
 
-@keyframes moveAsteroid {
+.asteroid.exploding {
+  /* When exploding, we don't want transform or opacity from the default .asteroid moving it.
+     The explosion animation itself will handle visual changes. */
+  opacity: 1 !important; /* Allow explosion animation to control fade out */
+  /* The transform is already set inline, we just need to ensure it doesn't animate further once exploding */
+}
+
+/* @keyframes moveAsteroid {
   0% {
     transform: translate(var(--start-x, -10vw), var(--start-y, -10vh)) rotate(0deg);
     opacity: 0;
@@ -114,7 +120,7 @@ body {
     transform: translate(var(--end-x, 110vw), var(--end-y, 110vh)) rotate(360deg);
     opacity: 0;
   }
-}
+} */
 
 .pixel-shadow {
   text-shadow: 2px 2px 0px #000000;
@@ -176,4 +182,26 @@ body {
 
 .pixel-icon:hover {
   transform: scale(1.1);
+}
+
+.explosion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: explode 0.5s forwards;
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }

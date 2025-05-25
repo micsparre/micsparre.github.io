@@ -19,6 +19,11 @@ function App() {
       startY: number;
       endX: number;
       endY: number;
+      isExploding?: boolean;
+      currentX?: number;
+      currentY?: number;
+      rotation?: number;
+      startTime?: number;
     }>
   >([]);
 
@@ -68,10 +73,117 @@ function App() {
         startY,
         endX,
         endY,
+        isExploding: false,
+        currentX: startX,
+        currentY: startY,
+        rotation: 0,
+        startTime: Date.now() + (i * 3 + 1) * 1000,
       };
     });
     setAsteroids(generatedAsteroids);
   }, []);
+
+  // Animation and collision detection loop
+  useEffect(() => {
+    let animationFrameId: number;
+    const ASTEROID_ANIMATION_DURATION = 20000; // 20 seconds in milliseconds
+
+    const updateAsteroids = () => {
+      const now = Date.now();
+      setAsteroids((prevAsteroids) => {
+        const updatedAsteroids = prevAsteroids.map((asteroid) => {
+          if (asteroid.isExploding || !asteroid.startTime || now < asteroid.startTime) {
+            return asteroid;
+          }
+
+          const timeElapsed = now - asteroid.startTime;
+          let progress = timeElapsed / ASTEROID_ANIMATION_DURATION;
+
+          if (progress >= 1) {
+            // Reset asteroid to start a new path or remove (for now, reset)
+            // To make it disappear and reappear, we could generate new start/end points
+            // and a new startTime in the future. For simplicity, let's just reset progress for continuous looping.
+             // This means we need to update startTime to reflect the new loop.
+            const newStartTime = asteroid.startTime + ASTEROID_ANIMATION_DURATION * Math.floor(progress);
+            const newTimeElapsed = now - newStartTime;
+            progress = newTimeElapsed / ASTEROID_ANIMATION_DURATION;
+
+            return {
+              ...asteroid,
+              currentX: asteroid.startX,
+              currentY: asteroid.startY,
+              rotation: 0,
+              startTime: newStartTime, 
+            };
+
+          }
+
+          const currentX = asteroid.startX + (asteroid.endX - asteroid.startX) * progress;
+          const currentY = asteroid.startY + (asteroid.endY - asteroid.startY) * progress;
+          const rotation = 360 * progress; // Simple rotation, can be improved
+
+          return {
+            ...asteroid,
+            currentX,
+            currentY,
+            rotation,
+          };
+        });
+
+        // Collision detection
+        const newAsteroidsWithCollisions = [...updatedAsteroids];
+        for (let i = 0; i < newAsteroidsWithCollisions.length; i++) {
+          const a1 = newAsteroidsWithCollisions[i];
+          if (a1.isExploding || !a1.startTime || now < a1.startTime || a1.currentX === undefined || a1.currentY === undefined) continue;
+
+          for (let j = i + 1; j < newAsteroidsWithCollisions.length; j++) {
+            const a2 = newAsteroidsWithCollisions[j];
+            if (a2.isExploding || !a2.startTime || now < a2.startTime || a2.currentX === undefined || a2.currentY === undefined) continue;
+
+            // Simple bounding box collision detection
+            // Assumes size is in vw/vh like units for simplicity, adjust if size is pixel based
+            // This is a rough check and might need refinement based on actual rendered size vs. vw/vh units
+            const ROUGH_SIZE_IN_VW_VH = a1.size / 50; // Heuristic: convert pixel size to approx vw/vh
+            
+            const a1Radius = ROUGH_SIZE_IN_VW_VH / 2;
+            const a2Radius = (a2.size / 50) / 2;
+
+
+            const distanceX = a1.currentX - a2.currentX;
+            const distanceY = a1.currentY - a2.currentY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+            if (distance < a1Radius + a2Radius) {
+              // Collision detected
+              if (newAsteroidsWithCollisions[i]) newAsteroidsWithCollisions[i].isExploding = true;
+              if (newAsteroidsWithCollisions[j]) newAsteroidsWithCollisions[j].isExploding = true;
+            }
+          }
+        }
+        return newAsteroidsWithCollisions;
+      });
+
+      animationFrameId = requestAnimationFrame(updateAsteroids);
+    };
+
+    animationFrameId = requestAnimationFrame(updateAsteroids);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []); // Empty dependency array ensures this runs once on mount and cleans up on unmount
+
+  // New useEffect to remove exploded asteroids
+  useEffect(() => {
+    if (asteroids.some(a => a.isExploding)) {
+      const timer = setTimeout(() => {
+        setAsteroids((prevAsteroids) =>
+          prevAsteroids.filter((asteroid) => !asteroid.isExploding)
+        );
+      }, 500); // Remove after 0.5s (explosion animation duration)
+      return () => clearTimeout(timer);
+    }
+  }, [asteroids]);
 
   const SpaceBackground = () => {
     return (
@@ -237,30 +349,47 @@ function App() {
       {asteroids.map((asteroid) => (
         <div
           key={asteroid.id}
-          className="asteroid"
+          className={`asteroid ${asteroid.isExploding ? 'exploding' : ''}`}
           style={{
-            animationDelay: `${asteroid.delay}s`,
-            '--start-x': `${asteroid.startX}vw`,
-            '--start-y': `${asteroid.startY}vh`,
-            '--end-x': `${asteroid.endX}vw`,
-            '--end-y': `${asteroid.endY}vh`,
+            transform: `translate(${asteroid.currentX}vw, ${asteroid.currentY}vh) rotate(${asteroid.rotation}deg)`,
+            opacity: (!asteroid.isExploding && asteroid.startTime && Date.now() >= asteroid.startTime) ? 1 : 0,
+            cursor: asteroid.isExploding ? 'default' : 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           } as React.CSSProperties}
+          onClick={() => {
+            if (!asteroid.isExploding) {
+              setAsteroids((prevAsteroids) =>
+                prevAsteroids.map((a) =>
+                  a.id === asteroid.id ? { ...a, isExploding: true } : a
+                )
+              );
+            }
+          }}
         >
-          <svg
-            width={asteroid.size}
-            height={asteroid.size}
-            viewBox="0 0 32 32"
-            className="pixelated"
-          >
-            <rect x="8" y="4" width="16" height="6" fill="#666666" />
-            <rect x="4" y="10" width="6" height="12" fill="#555555" />
-            <rect x="10" y="10" width="12" height="12" fill="#777777" />
-            <rect x="22" y="10" width="6" height="12" fill="#555555" />
-            <rect x="8" y="22" width="16" height="6" fill="#666666" />
-            <rect x="12" y="14" width="8" height="4" fill="#888888" />
-            <rect x="6" y="6" width="4" height="4" fill="#444444" />
-            <rect x="22" y="24" width="4" height="4" fill="#444444" />
-          </svg>
+          {asteroid.isExploding ? (
+            <div className="explosion">
+              {/* Simple square explosion for now */}
+              <div style={{ width: asteroid.size * 1.5, height: asteroid.size * 1.5, background: 'orange', imageRendering: 'pixelated' }} />
+            </div>
+          ) : (
+            <svg
+              width={asteroid.size}
+              height={asteroid.size}
+              viewBox="0 0 32 32"
+              className="pixelated"
+            >
+              <rect x="8" y="4" width="16" height="6" fill="#666666" />
+              <rect x="4" y="10" width="6" height="12" fill="#555555" />
+              <rect x="10" y="10" width="12" height="12" fill="#777777" />
+              <rect x="22" y="10" width="6" height="12" fill="#555555" />
+              <rect x="8" y="22" width="16" height="6" fill="#666666" />
+              <rect x="12" y="14" width="8" height="4" fill="#888888" />
+              <rect x="6" y="6" width="4" height="4" fill="#444444" />
+              <rect x="22" y="24" width="4" height="4" fill="#444444" />
+            </svg>
+          )}
         </div>
       ))}
 
