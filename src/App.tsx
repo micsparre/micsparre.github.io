@@ -89,28 +89,6 @@ function App() {
             />
           ))}
         </div>
-
-        {/* Static test stars to ensure they're visible */}
-        <div
-          className="absolute w-4 h-4 bg-white"
-          style={{ left: "10%", top: "10%" }}
-        ></div>
-        <div
-          className="absolute w-3 h-3 bg-[#00ffff]"
-          style={{ left: "20%", top: "30%" }}
-        ></div>
-        <div
-          className="absolute w-2 h-2 bg-[#ff0080]"
-          style={{ left: "40%", top: "50%" }}
-        ></div>
-        <div
-          className="absolute w-3 h-3 bg-[#00ff41]"
-          style={{ left: "60%", top: "70%" }}
-        ></div>
-        <div
-          className="absolute w-4 h-4 bg-[#ffff00]"
-          style={{ left: "80%", top: "20%" }}
-        ></div>
       </div>
     );
   };
@@ -291,7 +269,7 @@ function App() {
         {/* Main title */}
         <div className="text-center mb-6">
           <h1
-            className="text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated"
+            className="text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated mx-auto"
             style={{
               textShadow:
                 "4px 4px 0px #ff0080, -2px -2px 0px #00ffff, 2px -2px 0px #00ffff, -2px 2px 0px #00ffff, 2px 2px 0px #00ffff",
@@ -305,7 +283,7 @@ function App() {
 
           {/* Subtitle */}
           <div className="inline-block border-[#000000] px-8 py-4 pixelated">
-            <span className="text-[#00ffff] text-sm md:text-xl font-normal tracking-wider">
+            <span className="text-[#00ff41] text-sm md:text-xl font-normal tracking-wider">
               SOFTWARE ENGINEER
             </span>
           </div>
