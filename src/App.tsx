@@ -98,6 +98,7 @@ function App() {
   const [stars, setStars] = useState<Star[]>([]);
   const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
   const nextAsteroidId = useRef(0); // Counter for unique asteroid IDs
+  const MAX_ASTEROIDS_ON_SCREEN = 10;
 
   // Helper function to generate new paths for asteroids
   const generateNewPath = useCallback(() => {
@@ -264,25 +265,36 @@ function App() {
   // useEffect to continuously generate new asteroids
   useEffect(() => {
     const generationInterval = setInterval(() => {
-      const { newStartX, newStartY, newEndX, newEndY } = generateNewPath();
-      const newAsteroid: Asteroid = {
-        id: nextAsteroidId.current++,
-        size: Math.random() * 15 + 25,
-        startX: newStartX,
-        startY: newStartY,
-        endX: newEndX,
-        endY: newEndY,
-        isExploding: false,
-        currentX: newStartX,
-        currentY: newStartY,
-        rotation: 0,
-        startTime: Date.now(), // Start immediately
-      };
-      setAsteroids((prevAsteroids: Asteroid[]) => [...prevAsteroids, newAsteroid]);
-    }, 2500); // Generate a new asteroid every 2.5 seconds
+      setAsteroids((prevAsteroids) => {
+        const activeAsteroids = prevAsteroids.filter(
+          (a) => !a.isExploding && a.startTime && Date.now() >= a.startTime
+        ).length;
+
+        const probability = 1 - (Math.log(activeAsteroids + 1) / Math.log(MAX_ASTEROIDS_ON_SCREEN + 1));
+
+        if (Math.random() < probability && activeAsteroids < MAX_ASTEROIDS_ON_SCREEN) {
+          const { newStartX, newStartY, newEndX, newEndY } = generateNewPath();
+          const newAsteroid: Asteroid = {
+            id: nextAsteroidId.current++, // nextAsteroidId is a ref, safe to use
+            size: Math.random() * 15 + 25,
+            startX: newStartX,
+            startY: newStartY,
+            endX: newEndX,
+            endY: newEndY,
+            isExploding: false,
+            currentX: newStartX,
+            currentY: newStartY,
+            rotation: 0,
+            startTime: Date.now(), // Start immediately
+          };
+          return [...prevAsteroids, newAsteroid];
+        }
+        return prevAsteroids; // If no new asteroid, return the previous state unchanged
+      });
+    }, 500); // Check every 500ms
 
     return () => clearInterval(generationInterval); // Cleanup on unmount
-  }, [generateNewPath]); // Dependency: generateNewPath
+  }, [generateNewPath, MAX_ASTEROIDS_ON_SCREEN]); // Dependencies no longer include `asteroids`
 
   const SpaceBackground = () => {
     return (
