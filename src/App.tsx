@@ -458,7 +458,7 @@ function App() {
             justifyContent: 'center',
             alignItems: 'center',
           } as React.CSSProperties}
-          onClick={() => {
+          onMouseEnter={() => {
             if (!asteroid.isExploding) {
               setAsteroids((prevAsteroids: Asteroid[]) =>
                 prevAsteroids.map((a: Asteroid) =>
