@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 // Add ExplosionArt component here
 const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
@@ -71,32 +71,62 @@ const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
   );
 };
 
+interface Star {
+  id: number;
+  left: number;
+  top: number;
+  size: string;
+  delay: number;
+}
+
+interface Asteroid {
+  id: number;
+  // delay: number; // Initial delay for staggering, not part of ongoing state after first startTime is set
+  size: number;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  isExploding?: boolean;
+  currentX?: number;
+  currentY?: number;
+  rotation?: number;
+  startTime?: number;
+}
+
 function App() {
-  const [stars, setStars] = useState<
-    Array<{
-      id: number;
-      left: number;
-      top: number;
-      size: string;
-      delay: number;
-    }>
-  >([]);
-  const [asteroids, setAsteroids] = useState<
-    Array<{
-      id: number;
-      delay: number;
-      size: number;
-      startX: number;
-      startY: number;
-      endX: number;
-      endY: number;
-      isExploding?: boolean;
-      currentX?: number;
-      currentY?: number;
-      rotation?: number;
-      startTime?: number;
-    }>
-  >([]);
+  const [stars, setStars] = useState<Star[]>([]);
+  const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
+  const nextAsteroidId = useRef(0); // Counter for unique asteroid IDs
+
+  // Helper function to generate new random paths for asteroids
+  const generateNewPath = useCallback(() => {
+    let newStartX, newStartY, newEndX, newEndY;
+    const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+
+    if (side === 0) { // Coming from top
+      newStartX = Math.random() * 100;
+      newStartY = -10; // Start above screen
+      newEndX = Math.random() * 100;
+      newEndY = 110; // End below screen
+    } else if (side === 1) { // Coming from right
+      newStartX = 110; // Start right of screen
+      newStartY = Math.random() * 100;
+      newEndX = -10; // End left of screen
+      newEndY = Math.random() * 100;
+    } else if (side === 2) { // Coming from bottom
+      newStartX = Math.random() * 100;
+      newStartY = 110; // Start below screen
+      newEndX = Math.random() * 100;
+      newEndY = -10; // End above screen
+    } else { // Coming from left (side === 3)
+      newStartX = -10; // Start left of screen
+      newStartY = Math.random() * 100;
+      newEndX = 110; // End right of screen
+      newEndY = Math.random() * 100;
+    }
+    return { newStartX, newStartY, newEndX, newEndY };
+  }, []);
 
   useEffect(() => {
     // Generate stars once on mount
@@ -111,48 +141,28 @@ function App() {
 
     // Generate asteroids once on mount with proper spacing
     const generatedAsteroids = Array.from({ length: 8 }, (_, i) => {
-      let startX, startY, endX, endY;
-      const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
-
-      if (side === 0) { // Coming from top
-        startX = Math.random() * 100;
-        startY = -10; // Start above screen
-        endX = Math.random() * 100;
-        endY = 110; // End below screen
-      } else if (side === 1) { // Coming from right
-        startX = 110; // Start right of screen
-        startY = Math.random() * 100;
-        endX = -10; // End left of screen
-        endY = Math.random() * 100;
-      } else if (side === 2) { // Coming from bottom
-        startX = Math.random() * 100;
-        startY = 110; // Start below screen
-        endX = Math.random() * 100;
-        endY = -10; // End above screen
-      } else { // Coming from left (side === 3)
-        startX = -10; // Start left of screen
-        startY = Math.random() * 100;
-        endX = 110; // End right of screen
-        endY = Math.random() * 100;
-      }
+      const { newStartX, newStartY, newEndX, newEndY } = generateNewPath(); // Use the helper
 
       return {
-        id: i,
-        delay: i * 3 + 1, // Start after 1 second, space 3 seconds apart
-        size: Math.random() * 15 + 25, // Slightly larger and more consistent
-        startX,
-        startY,
-        endX,
-        endY,
+        id: i, // Initial IDs are 0 through 7
+        size: Math.random() * 15 + 25, // Randomize size
+        startX: newStartX,
+        startY: newStartY,
+        endX: newEndX,
+        endY: newEndY,
         isExploding: false,
-        currentX: startX,
-        currentY: startY,
+        currentX: newStartX,
+        currentY: newStartY,
         rotation: 0,
-        startTime: Date.now() + (i * 3 + 1) * 1000,
+        // Faster and randomized initial appearance times:
+        // First asteroid (i=0): 0-0.5s delay.
+        // Subsequent asteroids: staggered by an additional 1-1.8s each.
+        startTime: Date.now() + (i * 1500) + (Math.random() * 200 - 100), // Consistent 1.5s interval with +/-100ms jitter
       };
     });
     setAsteroids(generatedAsteroids);
-  }, []);
+    nextAsteroidId.current = generatedAsteroids.length; // Set the counter for the next ID
+  }, [generateNewPath]);
 
   // Animation and collision detection loop
   useEffect(() => {
@@ -164,8 +174,8 @@ function App() {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
-      setAsteroids((prevAsteroids) => {
-        const updatedAsteroids = prevAsteroids.map((asteroid) => {
+      setAsteroids((prevAsteroids: Asteroid[]) => {
+        const updatedAsteroids = prevAsteroids.map((asteroid: Asteroid) => {
           if (asteroid.isExploding || !asteroid.startTime || now < asteroid.startTime) {
             return asteroid;
           }
@@ -174,26 +184,13 @@ function App() {
           let progress = timeElapsed / ASTEROID_ANIMATION_DURATION;
 
           if (progress >= 1) {
-            // Reset asteroid to start a new path or remove (for now, reset)
-            // To make it disappear and reappear, we could generate new start/end points
-            // and a new startTime in the future. For simplicity, let's just reset progress for continuous looping.
-             // This means we need to update startTime to reflect the new loop.
-            const newStartTime = asteroid.startTime + ASTEROID_ANIMATION_DURATION * Math.floor(progress);
-            const newTimeElapsed = now - newStartTime;
-            progress = newTimeElapsed / ASTEROID_ANIMATION_DURATION;
-
-            return {
-              ...asteroid,
-              currentX: asteroid.startX,
-              currentY: asteroid.startY,
-              rotation: 0,
-              startTime: newStartTime, 
-            };
-
+            // Asteroid has completed its path, mark for removal or filter out
+            return null; // Mark for removal
           }
 
-          const currentX = asteroid.startX + (asteroid.endX - asteroid.startX) * progress;
-          const currentY = asteroid.startY + (asteroid.endY - asteroid.startY) * progress;
+          // Ensure currentX, currentY, startX, startY, endX, endY are defined before use
+          const currentX = (asteroid.startX ?? 0) + ((asteroid.endX ?? 0) - (asteroid.startX ?? 0)) * progress;
+          const currentY = (asteroid.startY ?? 0) + ((asteroid.endY ?? 0) - (asteroid.startY ?? 0)) * progress;
           const rotation = 360 * progress; // Simple rotation, can be improved
 
           return {
@@ -204,8 +201,11 @@ function App() {
           };
         });
 
+        // Filter out null (removed) asteroids
+        const validAsteroids = updatedAsteroids.filter(asteroid => asteroid !== null) as Asteroid[];
+
         // Collision detection
-        const newAsteroidsWithCollisions = [...updatedAsteroids];
+        const newAsteroidsWithCollisions = [...validAsteroids];
         for (let i = 0; i < newAsteroidsWithCollisions.length; i++) {
           const a1 = newAsteroidsWithCollisions[i];
           if (a1.isExploding || !a1.startTime || now < a1.startTime || a1.currentX === undefined || a1.currentY === undefined) continue;
@@ -246,25 +246,49 @@ function App() {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, []); // Empty dependency array ensures this runs once on mount and cleans up on unmount
+  }, []);
 
-  // New useEffect to remove exploded asteroids
+  // New useEffect to replace exploded asteroids
   useEffect(() => {
-    if (asteroids.some(a => a.isExploding)) {
+    const explodingAsteroids = asteroids.filter((a: Asteroid) => a.isExploding);
+    if (explodingAsteroids.length > 0) {
       const timer = setTimeout(() => {
-        setAsteroids((prevAsteroids) =>
-          prevAsteroids.filter((asteroid) => !asteroid.isExploding)
+        setAsteroids((prevAsteroids: Asteroid[]) =>
+          prevAsteroids.filter((asteroid: Asteroid) => !asteroid.isExploding) // Remove exploded asteroids
         );
       }, 500); // Remove after 0.5s (explosion animation duration)
       return () => clearTimeout(timer);
     }
-  }, [asteroids]);
+  }, [asteroids]); // Only re-run if asteroids array changes, no generateNewPath needed
+
+  // useEffect to continuously generate new asteroids
+  useEffect(() => {
+    const generationInterval = setInterval(() => {
+      const { newStartX, newStartY, newEndX, newEndY } = generateNewPath();
+      const newAsteroid: Asteroid = {
+        id: nextAsteroidId.current++,
+        size: Math.random() * 15 + 25,
+        startX: newStartX,
+        startY: newStartY,
+        endX: newEndX,
+        endY: newEndY,
+        isExploding: false,
+        currentX: newStartX,
+        currentY: newStartY,
+        rotation: 0,
+        startTime: Date.now(), // Start immediately
+      };
+      setAsteroids((prevAsteroids) => [...prevAsteroids, newAsteroid]);
+    }, 1500); // Generate a new asteroid every 1.5 seconds
+
+    return () => clearInterval(generationInterval); // Cleanup on unmount
+  }, [generateNewPath]); // Dependency: generateNewPath
 
   const SpaceBackground = () => {
     return (
       <div className="space-background">
         <div className="stars">
-          {stars.map((star) => (
+          {stars.map((star: Star) => (
             <div
               key={star.id}
               className={`star ${star.size}`}
@@ -421,7 +445,7 @@ function App() {
       <SpaceBackground />
 
       {/* Render Asteroids here, outside of SpaceBackground but within the main div */}
-      {asteroids.map((asteroid) => (
+      {asteroids.map((asteroid: Asteroid) => (
         <div
           key={asteroid.id}
           className={`asteroid ${asteroid.isExploding ? 'exploding' : ''}`}
@@ -435,8 +459,8 @@ function App() {
           } as React.CSSProperties}
           onClick={() => {
             if (!asteroid.isExploding) {
-              setAsteroids((prevAsteroids) =>
-                prevAsteroids.map((a) =>
+              setAsteroids((prevAsteroids: Asteroid[]) =>
+                prevAsteroids.map((a: Asteroid) =>
                   a.id === asteroid.id ? { ...a, isExploding: true } : a
                 )
               );
