@@ -5,10 +5,10 @@ const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
   const NUM_PIXELS_PER_SIDE = 8;
   const explosionScaleFactor = 1.75; // Determines explosion size relative to asteroid
   const targetExplosionCanvasSize = baseAsteroidSize * explosionScaleFactor;
-  
+
   // Each "pixel" of our art will be an integer-sized div
   const pixelArtUnitSize = Math.max(1, Math.floor(targetExplosionCanvasSize / NUM_PIXELS_PER_SIDE));
-  
+
   // The actual rendered size of the explosion will be based on the sum of our art pixels
   const actualExplosionRenderSize = NUM_PIXELS_PER_SIDE * pixelArtUnitSize;
 
@@ -24,14 +24,14 @@ const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
 
   // Pattern: 0: transparent, 1: white, 2: yellow, 3: orange, 4: red
   const pattern = [
-    [0,0,0,4,4,0,0,0],
-    [0,0,4,3,3,4,0,0],
-    [0,4,3,2,2,3,4,0],
-    [4,3,2,1,1,2,3,4], // Central, brightest part
-    [4,3,2,1,1,2,3,4], // Symmetric
-    [0,4,3,2,2,3,4,0],
-    [0,0,4,3,3,4,0,0],
-    [0,0,0,4,4,0,0,0],
+    [0, 0, 0, 4, 4, 0, 0, 0],
+    [0, 0, 4, 3, 3, 4, 0, 0],
+    [0, 4, 3, 2, 2, 3, 4, 0],
+    [4, 3, 2, 1, 1, 2, 3, 4], // Central, brightest part
+    [4, 3, 2, 1, 1, 2, 3, 4], // Symmetric
+    [0, 4, 3, 2, 2, 3, 4, 0],
+    [0, 0, 4, 3, 3, 4, 0, 0],
+    [0, 0, 0, 4, 4, 0, 0, 0],
   ];
 
   const colorMap: { [key: number]: string | undefined } = {
@@ -49,7 +49,7 @@ const ExplosionArt = ({ baseAsteroidSize }: { baseAsteroidSize: number }) => {
       display: 'grid',
       gridTemplateColumns: `repeat(${NUM_PIXELS_PER_SIDE}, ${pixelArtUnitSize}px)`,
       gridTemplateRows: `repeat(${NUM_PIXELS_PER_SIDE}, ${pixelArtUnitSize}px)`,
-      imageRendering: 'pixelated', 
+      imageRendering: 'pixelated',
       opacity: opacity, // Apply opacity state
       transition: 'opacity 0.4s ease-out', // Smooth transition for fade-out (400ms)
     }}>
@@ -99,7 +99,7 @@ function App() {
   const [asteroids, setAsteroids] = useState<Asteroid[]>([]);
   const nextAsteroidId = useRef(0); // Counter for unique asteroid IDs
 
-  // Helper function to generate new random paths for asteroids
+  // Helper function to generate new paths for asteroids
   const generateNewPath = useCallback(() => {
     let newStartX, newStartY, newEndX, newEndY;
     const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
@@ -278,7 +278,7 @@ function App() {
         rotation: 0,
         startTime: Date.now(), // Start immediately
       };
-      setAsteroids((prevAsteroids) => [...prevAsteroids, newAsteroid]);
+      setAsteroids((prevAsteroids: Asteroid[]) => [...prevAsteroids, newAsteroid]);
     }, 1500); // Generate a new asteroid every 1.5 seconds
 
     return () => clearInterval(generationInterval); // Cleanup on unmount
@@ -344,7 +344,7 @@ function App() {
 
               {/* <!-- 'n' --> */}
               <rect x="28" y="20" width="8" height="32" fill="#000000" />
-              <rect x="36" y="20" width="8" height="8" fill="#000000" /> 
+              <rect x="36" y="20" width="8" height="8" fill="#000000" />
               <rect x="44" y="20" width="8" height="32" fill="#000000" />
             </svg>
           );
@@ -362,7 +362,7 @@ function App() {
               {/* Octocat Face/Head */}
               <rect x="20" y="16" width="24" height="24" fill="currentColor" />
               <rect x="16" y="20" width="32" height="16" fill="currentColor" />
-              
+
               {/* Ears */}
               <rect x="16" y="12" width="8" height="8" fill="currentColor" />
               <rect x="40" y="12" width="8" height="8" fill="currentColor" />
@@ -372,7 +372,7 @@ function App() {
               <rect x="36" y="24" width="4" height="8" fill="#000000" />
 
               {/* Arm */}
-              <rect x="12" y="40" width="16" height="8" fill="currentColor" /> 
+              <rect x="12" y="40" width="16" height="8" fill="currentColor" />
               <rect x="20" y="32" width="8" height="8" fill="currentColor" />
             </svg>
           );
@@ -502,9 +502,7 @@ function App() {
               fontFamily: '"Press Start 2P", monospace',
               letterSpacing: "0.15em",
             }}
-          >
-            michael
-          </h1>
+          >michael</h1>
 
           {/* Subtitle */}
           <div className="inline-block border-[#000000] px-8 py-4 pixelated">
@@ -520,8 +518,8 @@ function App() {
             ABOUT ME
           </h2>
           <p className="text-[#00ffff] text-sm md:text-base leading-relaxed">
-          Hello! I'm Michael - a software engineer who enjoys building things and solving interesting problems. 
-          When I'm not coding, you'll probably find me watching or playing soccer. Feel free to say hi!
+            Hello! I'm Michael - a software engineer who enjoys building things and solving interesting problems.
+            When I'm not coding, you'll probably find me watching or playing soccer. Feel free to say hi!
           </p>
         </div>
 
