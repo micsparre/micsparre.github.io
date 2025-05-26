@@ -279,7 +279,7 @@ function App() {
         startTime: Date.now(), // Start immediately
       };
       setAsteroids((prevAsteroids: Asteroid[]) => [...prevAsteroids, newAsteroid]);
-    }, 1500); // Generate a new asteroid every 1.5 seconds
+    }, 2500); // Generate a new asteroid every 2.5 seconds
 
     return () => clearInterval(generationInterval); // Cleanup on unmount
   }, [generateNewPath]); // Dependency: generateNewPath
@@ -494,7 +494,7 @@ function App() {
         {/* Main title */}
         <div className="text-center mb-6">
           <h1
-            className="text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated mx-auto text-center"
+            className="text-4xl sm:text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated mx-auto text-center"
             style={{
               textShadow:
                 "4px 4px 0px #ff0080, -2px -2px 0px #00ffff, 2px -2px 0px #00ffff, -2px 2px 0px #00ffff, 2px 2px 0px #00ffff",
