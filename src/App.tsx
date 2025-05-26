@@ -317,6 +317,8 @@ function App() {
   };
 
   const PixelIcon = ({ type }: { type: string }) => {
+    const commonSvgStyle: React.CSSProperties = { pointerEvents: 'none' };
+
     const renderIcon = () => {
       switch (type) {
         case "instagram":
@@ -327,6 +329,7 @@ function App() {
               viewBox="0 0 64 64"
               fill="currentColor"
               className="pixelated"
+              style={commonSvgStyle}
             >
               <path
                 fill-rule="evenodd"
@@ -344,6 +347,7 @@ function App() {
               viewBox="0 0 64 64"
               fill="currentColor"
               className="pixelated"
+              style={commonSvgStyle}
             >
               <g clip-path="url(#clip0_102_5)">
                 <path
@@ -372,6 +376,7 @@ function App() {
               viewBox="0 0 64 64"
               fill="currentColor"
               className="pixelated"
+              style={commonSvgStyle}
             >
               <g clip-path="url(#clip0_101_5)">
                 <path
@@ -400,6 +405,7 @@ function App() {
               viewBox="0 0 64 50"
               fill="currentColor"
               className="pixelated"
+              style={commonSvgStyle}
             >
               <path
                 fill-rule="evenodd"
@@ -417,6 +423,7 @@ function App() {
               viewBox="0 0 64 64"
               fill="currentColor"
               className="pixelated"
+              style={commonSvgStyle}
             >
               <path
                 fill-rule="evenodd"
@@ -526,6 +533,8 @@ function App() {
           <div className="flex flex-wrap items-center gap-8 justify-center md:justify-start">
             <a
               href="https://instagram.com/micsparre"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#ff0080] hover:text-[#ffffff] transition-colors transform hover:scale-110"
             >
               <PixelIcon type="instagram" />
@@ -533,6 +542,8 @@ function App() {
 
             <a
               href="https://linkedin.com/in/micsparre"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#ff0080] hover:text-[#ffffff] transition-colors transform hover:scale-110"
             >
               <PixelIcon type="linkedin" />
@@ -540,6 +551,8 @@ function App() {
 
             <a
               href="https://github.com/micsparre"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#ff0080] hover:text-[#ffffff] transition-colors transform hover:scale-110"
             >
               <PixelIcon type="github" />
@@ -547,13 +560,17 @@ function App() {
 
             <a
               href="mailto:micsparre@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#ff0080] hover:text-[#ffffff] transition-colors transform hover:scale-110"
             >
               <PixelIcon type="email" />
             </a>
 
             <a
-              href="https://micsparre.github.io/msparre-res.pdf"
+              href="./michael-resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#ff0080] hover:text-[#ffffff] transition-colors transform hover:scale-110"
             >
               <PixelIcon type="resume" />
