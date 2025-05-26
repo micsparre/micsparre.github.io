@@ -494,7 +494,7 @@ function App() {
         {/* Main title */}
         <div className="text-center mb-6">
           <h1
-            className="text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated mx-auto"
+            className="text-5xl md:text-7xl font-normal mb-6 pixel-gradient-text pixelated mx-auto text-center"
             style={{
               textShadow:
                 "4px 4px 0px #ff0080, -2px -2px 0px #00ffff, 2px -2px 0px #00ffff, -2px 2px 0px #00ffff, 2px 2px 0px #00ffff",
