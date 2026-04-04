@@ -37,6 +37,7 @@ const projects: Project[] = [
   {
     name: "xray",
     description: "Engineering team knowledge graph tool.",
+    url: "https://xray.michaelsparre.com",
     github: "https://github.com/micsparre/xray",
   },
 ];
