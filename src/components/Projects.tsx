@@ -6,27 +6,23 @@ const projects: Project[] = [
     description:
       "Media ranking app for movies, TV shows, books, and manga.",
     url: "https://ranked.michaelsparre.com",
-    github: "https://github.com/micsparre/ranked",
   },
   {
     name: "synth",
     description:
       "AI image generation playground with persistent history.",
     url: "https://synth.michaelsparre.com",
-    github: "https://github.com/micsparre/synth",
   },
   {
     name: "observe",
     description:
       "Self-hosted personal finance dashboard with an AI assistant.",
     url: "https://observe.michaelsparre.com",
-    github: "https://github.com/micsparre/observe",
   },
   {
     name: "rice-poems",
     description: "Static site for a family poem collection.",
     url: "https://ricepoems.com",
-    github: "https://github.com/micsparre/rice-poems",
   },
   {
     name: "wordfake",
