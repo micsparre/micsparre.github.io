@@ -47,7 +47,15 @@ export default function Hero() {
       </h1>
       <p className="text-lg text-neutral-400 mb-1">Software Engineer</p>
       <p className="text-sm text-neutral-500 mb-6">
-        Founding Engineer at Grepr
+        Founding Engineer at{" "}
+        <a
+          href="https://grepr.ai"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-neutral-400 hover:text-white transition-colors"
+        >
+          Grepr
+        </a>
       </p>
       <div className="flex gap-4">
         {links.map(({ href, label, icon }) => (
