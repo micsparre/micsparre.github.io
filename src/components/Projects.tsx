@@ -22,12 +22,12 @@ const projects: Project[] = [
   {
     name: "rice-poems",
     description: "Static site for a family poem collection.",
-    url: "https://ricepoems.com",
+    url: "https://rice.michaelsparre.com",
   },
   {
     name: "wordfake",
     description: "A word-guessing party game.",
-    url: "https://wordfake.michaelsparre.com",
+    url: "https://wordfake.com",
     github: "https://github.com/micsparre/wordfake",
   },
   {
