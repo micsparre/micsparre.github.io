@@ -41,7 +41,7 @@ const links = [
 
 export default function Hero() {
   return (
-    <section className="mb-16">
+    <section className="mb-10">
       <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
         Michael Sparre
       </h1>
