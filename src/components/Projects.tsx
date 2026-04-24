@@ -4,8 +4,18 @@ const projects: Project[] = [
   {
     name: "ranked",
     description:
-      "Media ranking app for movies, TV shows, books, and manga.",
+      "Explore, track, rank, and get AI recommendations for movies, TV, books, and manga.",
     url: "https://ranked.michaelsparre.com",
+  },
+  {
+    name: "world-cup",
+    description: "2026 World Cup pool with live standings and scoring.",
+    url: "https://worldcup.michaelsparre.com",
+  },
+  {
+    name: "passport",
+    description: "Interactive travel map for tracking visited places.",
+    url: "https://passport.michaelsparre.com",
   },
   {
     name: "synth",
@@ -16,25 +26,30 @@ const projects: Project[] = [
   {
     name: "observe",
     description:
-      "Self-hosted personal finance dashboard with an AI assistant.",
+      "Personal finance dashboard with an AI assistant.",
     url: "https://observe.michaelsparre.com",
   },
   {
     name: "rice-poems",
-    description: "Static site for a family poem collection.",
+    description: "Family poem collection.",
     url: "https://rice.michaelsparre.com",
   },
   {
     name: "wordfake",
-    description: "A word-guessing party game.",
+    description: "Daily word game where you spot the fake word.",
     url: "https://wordfake.com",
     github: "https://github.com/micsparre/wordfake",
   },
   {
     name: "xray",
-    description: "Engineering team knowledge graph tool.",
+    description: "Discovers engineering-team insights through AI code analysis and knowledge graphs.",
     url: "https://xray.michaelsparre.com",
     github: "https://github.com/micsparre/xray",
+  },
+  {
+    name: "pokemon favicon generator",
+    description: "Generate favicon packages from Pokemon sprites.",
+    url: "https://poke.michaelsparre.com",
   },
 ];
 
