@@ -35,16 +35,14 @@ const projects: Project[] = [
     url: "https://rice.michaelsparre.com",
   },
   {
-    name: "wordfake",
-    description: "Daily word game where you spot the fake word.",
-    url: "https://wordfake.com",
-    github: "https://github.com/micsparre/wordfake",
-  },
-  {
     name: "xray",
     description: "Discovers engineering-team insights through AI code analysis and knowledge graphs.",
     url: "https://xray.michaelsparre.com",
-    github: "https://github.com/micsparre/xray",
+  },
+  {
+    name: "workout",
+    description: "Visualize Hevy workout history and generate smarter training routines with AI.",
+    url: "https://workout.michaelsparre.com",
   },
   {
     name: "pokemon favicon generator",
