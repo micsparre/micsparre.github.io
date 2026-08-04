@@ -2,9 +2,19 @@ import ProjectCard, { type Project } from "./ProjectCard";
 
 const projects: Project[] = [
   {
+    name: "observe",
+    description: "Personal finance dashboard.",
+    url: "https://observe.michaelsparre.com",
+  },
+  {
+    name: "workout",
+    description: "Visualize Hevy workout history and generate smarter training routines.",
+    url: "https://workout.michaelsparre.com",
+  },
+  {
     name: "ranked",
     description:
-      "Explore, track, rank, and get AI recommendations for movies, TV, books, and manga.",
+      "Explore, track, rank, and get recommendations for movies, TV, books, and manga.",
     url: "https://ranked.michaelsparre.com",
   },
   {
@@ -24,25 +34,9 @@ const projects: Project[] = [
     url: "https://synth.michaelsparre.com",
   },
   {
-    name: "observe",
-    description:
-      "Personal finance dashboard with an AI assistant.",
-    url: "https://observe.michaelsparre.com",
-  },
-  {
-    name: "rice-poems",
+    name: "rice poems",
     description: "Family poem collection.",
     url: "https://rice.michaelsparre.com",
-  },
-  {
-    name: "xray",
-    description: "Discovers engineering-team insights through AI code analysis and knowledge graphs.",
-    url: "https://xray.michaelsparre.com",
-  },
-  {
-    name: "workout",
-    description: "Visualize Hevy workout history and generate smarter training routines with AI.",
-    url: "https://workout.michaelsparre.com",
   },
   {
     name: "pokemon favicon generator",
