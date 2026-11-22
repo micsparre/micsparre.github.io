@@ -41,35 +41,40 @@ const links = [
 
 export default function Hero() {
   return (
-    <section className="mb-10">
-      <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
+    <section className="mb-16">
+      <h1 className="mb-2 text-4xl font-bold tracking-tight sm:text-5xl">
         Michael Sparre
       </h1>
-      <p className="text-lg text-neutral-400 mb-1">Software Engineer</p>
-      <p className="text-sm text-neutral-500 mb-6">
-        Founding Engineer at{" "}
+      <p className="text-lg text-neutral-400">Software Engineer</p>
+      <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-neutral-300">
+        I'm a founding engineer at{" "}
         <a
           href="https://grepr.ai"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-neutral-400 hover:text-white transition-colors"
+          className="text-white underline decoration-neutral-600 underline-offset-4 transition-colors hover:decoration-white"
         >
           Grepr
         </a>
+        , where I build agents and the streaming infrastructure behind them.
+        On the side I build iPhone apps and web tools, several with MCP servers
+        so AI agents can work with my own data.
       </p>
-      <div className="flex gap-4">
-        {links.map(({ href, label, icon }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={label}
-            className="text-neutral-500 hover:text-white transition-colors"
-          >
-            {icon}
-          </a>
-        ))}
+      <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3">
+        {links.map(({ href, label, icon }) => {
+          const external = href.startsWith("http") || href.endsWith(".pdf");
+          return (
+            <a
+              key={label}
+              href={href}
+              {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+              className="flex items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-white"
+            >
+              <span className="[&>svg]:h-4 [&>svg]:w-4">{icon}</span>
+              {label}
+            </a>
+          );
+        })}
       </div>
     </section>
   );
