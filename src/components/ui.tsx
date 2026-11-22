@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export function SectionHeading({ children }: { children: ReactNode }) {
   return (
-    <h2 className="mb-6 text-xs font-medium uppercase tracking-widest text-neutral-500">
+    <h2 className="mb-6 text-xs font-medium uppercase tracking-widest text-neutral-400">
       {children}
     </h2>
   );

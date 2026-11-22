@@ -68,7 +68,7 @@ export default function Hero() {
               key={label}
               href={href}
               {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-              className="flex items-center gap-2 text-sm text-neutral-500 transition-colors hover:text-white"
+              className="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
             >
               <span className="[&>svg]:h-4 [&>svg]:w-4">{icon}</span>
               {label}

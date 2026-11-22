@@ -38,7 +38,7 @@ export default function Writing() {
                 <p className="text-[15px] text-neutral-200 transition-colors group-hover:text-white">
                   {title}
                 </p>
-                <p className="mt-1 text-xs text-neutral-500">
+                <p className="mt-1 text-xs text-neutral-400">
                   {source} · {date}
                 </p>
               </div>

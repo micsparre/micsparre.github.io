@@ -10,7 +10,7 @@ export default function App() {
       <Work />
       <Writing />
       <Projects />
-      <footer className="border-t border-[#1f1f1f] pt-6 text-xs text-neutral-600">
+      <footer className="border-t border-[#1f1f1f] pt-6 text-xs text-neutral-400">
         © {new Date().getFullYear()} Michael Sparre
       </footer>
     </main>
